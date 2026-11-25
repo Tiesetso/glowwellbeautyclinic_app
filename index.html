@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GlowWell Beauty Clinic</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <style>
+        
+        .home-grid {
+            display: grid;
+            grid-template-columns: 1.3fr 1fr;
+            gap: 40px;
+            align-items: start;
+            margin-top: 20px;
+        }
+
+        @media (max-width: 850px) {
+            .home-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .hero-section {
+            position: relative;
+            overflow: hidden;
+            padding: 32px;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04);
+            z-index: 1;
+        }
+
+        .hero-bg-slider {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        .hero-bg-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            opacity: 0;
+            transition: opacity 1.5s ease-in-out;
+        }
+
+        .hero-bg-slide.active {
+            opacity: 1;
+        }
+
+        .hero-title {
+            font-size: 1.9rem;
+            color: var(--primary-dark);
+            margin-bottom: 12px;
+        }
+
+        .hero-subtitle {
+            color: #555555;
+            line-height: 1.6;
+            margin-bottom: 24px;
+            font-size: 0.96rem;
+        }
+
+        .services-title {
+            font-size: 1.1rem;
+            margin-bottom: 14px;
+            color: var(--dark);
+            border-bottom: 2px solid var(--secondary);
+            padding-bottom: 6px;
+        }
+
+        .service-list {
+            list-style: none;
+        }
+
+        .service-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 14px;
+            margin-bottom: 6px;
+            border-bottom: 1px dashed var(--border);
+            border-radius: 8px;
+            font-size: 0.92rem;
+            background-color: rgba(255, 255, 255, 0.55);
+            transition: transform 0.25s ease, background-color 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+            cursor: pointer;
+        }
+
+        .service-item:hover {
+            transform: translateX(8px) scale(1.01);
+            background-color: #ffffff;
+            border-bottom-color: transparent;
+            box-shadow: 0 4px 12px rgba(142, 68, 173, 0.18);
+        }
+
+        .service-category {
+            font-size: 0.78rem;
+            background: var(--secondary);
+            color: var(--primary-dark);
+            padding: 2px 8px;
+            border-radius: 10px;
+            margin-left: 6px;
+            font-weight: 600;
+        }
+
+        .service-price {
+            font-weight: 700;
+            color: var(--primary-dark);
+        }
+
+        .form-heading {
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .btn-full {
+            width: 100%;
+            margin-top: 15px;
+        }
+
+        .auth-switch-text {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 0.9rem;
+        }
+
+        .hidden-form {
+            display: none;
+        }
+
+    </style>
+    <script src="assets/js/app.js" defer></script>
+</head>
+<body>
+    
+    <header class="navbar">
+        <div class="brand">GlowWell Beauty Clinic</div>
+    </header>
+
+    <main class="container">
+
+        <div class="home-grid">
+
+            <section class="hero-section">
+
+                <h1 class="hero-title">Your Sanctuary for Wellness &amp; Beauty</h1>
+                <p class="hero-subtitle">
+                    Welcome to GlowWell Beauty Clinic's online booking portal. Browse our signature treatments below and sign in or create an account to schedule your appointment with our certified specialists with instant seamless time slot verification.
+                </p>
+
+                <h3 class="services-title">Our Signature Treatments</h3>
+                    
+                <ul class="service-list">
+
+                    <li class="service-item">
+                        <span><strong>HydraGlow Deep Facial</strong> (60 mins) <span class="service-category">Facials</span></span>
+                        <span class="service-price">R 630.00</span>
+                    </li>
+
+                    <li class="service-item">
+                        <span><strong>Swedish Full Body Massage</strong> (60 mins) <span class="service-category">Massages</span></span>
+                        <span class="service-price">R 850.00</span>
+                    </li>
+
+                    <li class="service-item">
+                        <span><strong>Japanese Silk Hair Treatment</strong> (90 mins) <span class="service-category">Hair Treatments</span></span>
+                        <span class="service-price">R 1,200.00</span>
+                    </li>
+
+                    <li class="service-item">
+                        <span><strong>Clay Wrap</strong> (75 mins) <span class="service-category">Wellness</span></span>
+                        <span class="service-price">R 1,290.00</span>
+                    </li>
+
+                    <li class="service-item">
+                        <span><strong>Hot Stone &amp; Scalp Speciality</strong> (90 mins) <span class="service-category">Speciality</span></span>
+                        <span class="service-price">R 1,000.00</span>
+                    </li>
+
+                </ul>
+
+            </section>
+
+            <div class="auth-container">
+
+                <h2 id="form-title" class="form-heading">Welcome to GlowWell</h2>
+
+                <!-- Dymanic alert box for errors and success messages --> 
+                <div id="auth-alert" class="alert"></div>
+
+                <!-- Login form-->
+                <form id="login-form" onsubmit="event.preventDefault(); handleModularSubmit(this, 'api/login.php', 'auth-alert');">
+
+                    <div class="form-group">
+                        <label for="login-email">Email Address</label>
+                        <input type="email" id="login-email" name="email" class="form-control" required placeholder="e.g. Neo@example.com">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="login-password">Password</label>
+                        <input type="password" id="login-password" name="password" class="form-control" required placeholder="••••••••">
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-full">Sign In</button>
+
+                    <p class="auth-switch-text">
+                        Don't have an account? <a href="#" onclick="toggleAuth(true)">Register here</a>
+                    </p>
+
+                </form>
+
+                <!-- Registration form -->
+                <form id="register-form" class="hidden-form" onsubmit="event.preventDefault(); handleModularSubmit(this, 'api/register.php', 'auth-alert');">
+
+                    <div class="form-group">
+                        <label for="reg-name">Full Name</label>
+                        <input type="text" id="reg-name" name="full_name" class="form-control" required placeholder="e.g. Lerato Khumalo">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="reg-email">Email Address</label>
+                        <input type="email" id="reg-email" name="email" class="form-control" required placeholder="e.g. lerato@example.com">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="reg-phone">Phone Number</label>
+                        <input type="text" id="reg-phone" name="phone" class="form-control" required placeholder="e.g. 0825551020">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="reg-password">Password</label>
+                        <input type="password" id="reg-password" name="password" class="form-control" required placeholder="Choose a secure password">
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-full">Create Account</button>
+
+                    <p class="auth-switch-text">
+                        Already registered? <a href="#" onclick="toggleAuth(false)">Sign In</a>
+                    </p>
+                    
+                </form>
+
+            </div>
+
+        </div>
+
+    </main>
+
+    <script>
+
+        // Switches smoothly between Login and Register views without reloading
+        function toggleAuth(showRegister) {
+            document.getElementById('login-form').style.display = showRegister ? 'none' : 'block';
+            document.getElementById('register-form').style.display = showRegister ? 'block' : 'none';
+            document.getElementById('form-title').innerText = showRegister ? 'Register Account' : 'Welcome to GlowWell';
+            document.getElementById('auth-alert').style.display = 'none';
+        }
+
+        // Hero section background images slideshow
+        const heroImages = [
+            'assets/images/engin-akyurt-SMwCQZWayj0-unsplash.jpg',
+            'assets/images/victor-meza-hX9V80PDxrQ-unsplash.jpg',
+            'assets/images/engin-akyurt-g-m8EDc4X6Q-unsplash.jpg',
+            'assets/images/quentin-mahe-mAW3jUP6G6E-unsplash.jpg'  
+        ];
+
+        let currentHeroIndex = 0;
+
+        window.addEventListener('DOMContentLoaded', () => {
+
+            const heroBox = document.querySelector('.hero-section');
+            if (!heroBox) return;
+
+            const sliderContainer = document.createElement('div');
+            sliderContainer.className = 'hero-bg-slider';
+
+            const slides = heroImages.map((imgUrl, index) => {
+                const slide = document.createElement('div');
+                slide.className = index === 0 ? 'hero-bg-slide active' : 'hero-bg-slide';
+                slide.style.backgroundImage = `linear-gradient(rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.7)), url('${imgUrl}')`;
+                sliderContainer.appendChild(slide);
+                return slide;
+            });
+
+            heroBox.prepend(sliderContainer);
+
+            setInterval(() => {
+                slides[currentHeroIndex].classList.remove('active');
+                currentHeroIndex = (currentHeroIndex + 1) % slides.length;
+                slides[currentHeroIndex].classList.add('active');
+            }, 4500);
+
+            // Highlights the login email input when clicking service item
+            document.querySelectorAll('.service-item').forEach(item => {
+                item.addEventListener('click', () => {
+                    document.getElementById('login-email').focus();
+                });
+            });
+
+        });
+
+    </script>
+
+</body>
+</html>
